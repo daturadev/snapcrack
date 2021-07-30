@@ -1,0 +1,4 @@
+requests
+hashlib
+uuid
+cryptography
