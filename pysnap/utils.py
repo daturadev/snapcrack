@@ -14,8 +14,8 @@ import requests
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-URL = 'https://accounts.snapchat.com/login'
-AUTH_URL = 'https://app.snapchat.com/'
+URL = 'https://accounts.snapchat.com/'
+AUTH_URL = 'https://accounts.snapchat.com/'
 
 SECRET = b'iEk21fuwZApXlz93750dmW22pw389dPwOk'
 STATIC_TOKEN = 'm198sOkJEn37DjqZ32lpRu76xmw288xSQ9'
@@ -85,10 +85,11 @@ def request(endpoint, auth_token, data=None, files=None,
         'Accept-Locale': 'en'
     }
 
+
     if endpoint == 'login':
-        url = AUTH_URL + 'loq/'
+        url = AUTH_URL + 'accounts/'
     else:
-        url = URL + 'bq/'
+        url = URL + 'accounts'
 
     if req_type == 'post':
         data.update({
@@ -100,8 +101,11 @@ def request(endpoint, auth_token, data=None, files=None,
                           headers=headers)
     else:
         r = requests.get(url + endpoint, params=data, headers=headers)
-    if raise_for_status:
-        r.raise_for_status()
+    # if raise_for_status:
+    #     r.raise_for_status()
+    # print(type(r))
+    if "429" in str(r):
+        return "overload"
     return r
 
 
