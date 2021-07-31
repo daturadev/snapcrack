@@ -99,9 +99,14 @@ class Snapchat(object):
             'username': username,
             'password': password
         })
-        result = r.json()
-
-        if 'updates_response' in result:
+        # print(r.content)
+        
+        
+        if r == "overload":
+            print(f"Server has stopped accepting requests, the last password used was {password}")
+        result = r.content
+		# 	print(f"Run this program again in five minutes, try removing all passwords up to {password}")
+        if b'updates_response' in result:
 
             if 'auth_token' in result['updates_response']:
                 self.auth_token = result['updates_response']['auth_token']
@@ -109,8 +114,8 @@ class Snapchat(object):
             if 'username' in result['updates_response']:
                 self.username = username
 
-        if self.username is None and self.auth_token is None:
-            raise Exception(result.get('message', 'unknown error'))
+        # if self.username is None and self.auth_token is None:
+            # raise Exception(result.get('message', 'unknown error'))
 
         return result
 
