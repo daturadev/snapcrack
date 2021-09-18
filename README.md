@@ -2,7 +2,7 @@
 Python Snapchat Cracker [educational purposes only]
 ![penis](Screenshot_20210730_094243.png)
 
-# Work in progress
+# Work in progress (Now not even really working on it)
 
 python snapchat cracker using Snapchat API. 
 
