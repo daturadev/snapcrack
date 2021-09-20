@@ -9,10 +9,11 @@ from hashlib import sha256
 from time import time
 from uuid import uuid4
 
-import requests
-
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
+
+import requests
+from proxyscrape import *
 
 URL = 'https://accounts.snapchat.com/'
 AUTH_URL = 'https://accounts.snapchat.com/'
@@ -64,9 +65,18 @@ def encrypt(data):
 def timestamp():
     return int(round(time() * 1000))
 
+# Proxy Rotation
+collector = create_collector('scrape', ['http', 'https'])
+proxy = collector.get_proxy({'code': 'us', 'anonymous': True})
+
+def proxy_refresh(proxy):
+    collector.refresh_proxies(force=True)
+    proxy = collector.get_proxy({'code': ('us'), 'anonymous': True})
+    return proxy
+
 
 def request(endpoint, auth_token, data=None, files=None,
-            raise_for_status=True, req_type='post'):
+            raise_for_status=True, req_type='post', proxies=proxy):
     """Wrapper method for calling Snapchat API which adds the required auth
     token before sending the request.
 
@@ -98,9 +108,9 @@ def request(endpoint, auth_token, data=None, files=None,
                                             str(now))
         })
         r = requests.post(url + endpoint, data=data, files=files,
-                          headers=headers)
+                          headers=headers, proxies=proxy)
     else:
-        r = requests.get(url + endpoint, params=data, headers=headers)
+        r = requests.get(url + endpoint, params=data, headers=headers, proxies=proxy)
     # if raise_for_status:
     #     r.raise_for_status()
     # print(type(r))

