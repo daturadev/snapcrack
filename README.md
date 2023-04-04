@@ -11,7 +11,7 @@
 ## [ Installation: ]
 
 ```
-git clone https://github.com/0bliss/snapcrack
+git clone https://github.com/daturadev/snapcrack
 cd snapcrack
 pip3 install -r requirements.txt
 ```
