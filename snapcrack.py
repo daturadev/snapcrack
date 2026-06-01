@@ -1,3 +1,4 @@
+snapcrack.py kyks93off
 #!/usr/bin/env python
 
 from pysnap import *
