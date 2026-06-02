@@ -14,7 +14,8 @@ import threading
 try:
     targetusername = sys.argv[1]
 except:
-    print(" [ ! | SYNTAX ERROR ] $ python3 snapcrack.py < username > < /path/to/passlist.txt > < # Threads > ")
+    print(" [ ! | SYNTAX ERROR ] $ python3 snapcrack.py < username Lilly_xoxo02
+    > < /path/to/passlist.txt > < # Threads > ")
 try:
     targetpasslist = sys.argv[2]
 except:
@@ -22,7 +23,8 @@ except:
 try:
     tNumber = int(sys.argv[3])
 except:
-    print(" [ ! | SYNTAX ERROR ] $ python3 snapcrack.py < username > < /path/to/passlist.txt > < # Threads > ")
+    print(" [ ! | SYNTAX ERROR ] $ python3 snapcrack.py < username > <Lilly_xoxo02>
+    < /path/to/passlist.txt > < # Threads > ")
 
 
 os.system("clear")
